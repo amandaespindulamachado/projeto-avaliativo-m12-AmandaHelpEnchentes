@@ -5,6 +5,8 @@ node_modules/
 # Banco de dados SQLite
 *.sqlite
 *.sqlite3
+*.sqlite-shm
+*.sqlite-wal
 *.db
 
 # Variáveis de ambiente
