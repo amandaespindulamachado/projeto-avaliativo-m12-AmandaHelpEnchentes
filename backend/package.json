@@ -26,6 +26,8 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage",
+    "testMatch": ["**/tests/**/*.test.js"],
+    "rootDir": "."
   }
 }

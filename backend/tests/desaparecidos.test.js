@@ -11,20 +11,26 @@ const bcrypt = require('bcryptjs');
 process.env.JWT_SECRET = 'test_secret_key';
 process.env.DB_PATH = ':memory:';
 
+// Email único para esta suíte evitar conflito com outras suítes
+const EMAIL_GESTOR = 'gestor_desaparecidos@test.com';
+
 let tokenGestor;
 let desaparecidoId;
 
 beforeAll(async () => {
   runMigrations();
-  const senha = bcrypt.hashSync('senha123', 10);
-  db.prepare('INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?, ?, ?, ?)').run('Gestor', 'gestor@test.com', senha, 'gestor');
+  const existe = db.prepare('SELECT id FROM usuarios WHERE email = ?').get(EMAIL_GESTOR);
+  if (!existe) {
+    const senha = bcrypt.hashSync('senha123', 10);
+    db.prepare('INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?, ?, ?, ?)').run('Gestor Desaparecidos', EMAIL_GESTOR, senha, 'gestor');
+  }
 
-  const res = await request(app).post('/api/auth/login').send({ email: 'gestor@test.com', senha: 'senha123' });
+  const res = await request(app).post('/api/auth/login').send({ email: EMAIL_GESTOR, senha: 'senha123' });
   tokenGestor = res.body.token;
 });
 
 afterAll(() => {
-  db.close();
+  try { db.close(); } catch { /* já fechado por outra suíte */ }
 });
 
 describe('POST /api/desaparecidos', () => {
