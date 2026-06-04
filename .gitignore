@@ -1,0 +1,34 @@
+# Dependências
+node_modules/
+*/node_modules/
+
+# Banco de dados SQLite
+*.sqlite
+*.sqlite3
+*.db
+
+# Variáveis de ambiente
+.env
+backend/.env
+frontend/.env
+
+# Build
+dist/
+build/
+frontend/dist/
+
+# Coverage
+coverage/
+*/coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
